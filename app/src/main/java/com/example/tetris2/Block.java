@@ -81,11 +81,12 @@ public class Block {
 
             if (isFilled) {
                 for (int ver = v; ver >= 1; ver--) {
-                    board.board[ver] = board.board[ver - 1];
+                    System.arraycopy(board.board[ver-1], 0, board.board[ver], 0, board.board[ver].length);
+                    //board.board[ver] = board.board[ver - 1];
                     //checkif = true;
                 }
                 board.board[0] = initBlock;
-
+                v++;
             }
 
         }
