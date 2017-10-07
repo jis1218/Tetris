@@ -22,3 +22,8 @@ if (isFilled) {
                 v++;
             }
 ```
+
+### 추가 공부해야 할 부분
+##### Activity 끝내는 방법 (Intent를 이용한 Flag에 해법이 있을 듯 함)
+##### Thread 멈추게 하는 방법
+##### Fragment 띄우는 방법

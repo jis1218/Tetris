@@ -17,8 +17,8 @@ public class PreviewBlock extends Block {
     public PreviewBlock(Context context, CallbackNice callbackNice) {
         super(context, callbackNice);
         Random random = new Random();
-        //rannumForPreview = random.nextInt(6);
-        rannumForPreview = 2;
+        rannumForPreview = random.nextInt(6);
+        //rannumForPreview = 2;
         preview_block = blocks[rannumForPreview][0];
 
     }
@@ -28,8 +28,8 @@ public class PreviewBlock extends Block {
         for (int v = 0; v < 4; v++) {
             for (int h = 0; h < 4; h++) {
                 if (preview_block[v][h] > 0) {
-                    canvas.drawRect((h + 1) * cs_preview + board_size, (v) * cs_preview,
-                            (h + 2) * cs_preview + board_size, (v + 1) * cs_preview, setPaint(rannumForPreview));
+                    canvas.drawRect((h + 1) * cs_preview + board_size, (v+2) * cs_preview,
+                            (h + 2) * cs_preview + board_size, (v + 3) * cs_preview, setPaint(rannumForPreview));
                 }
             }
         }

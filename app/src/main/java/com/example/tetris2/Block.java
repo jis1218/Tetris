@@ -1,10 +1,12 @@
 package com.example.tetris2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.Window;
 
 import java.util.Random;
 
@@ -52,12 +54,12 @@ public class Block {
 
     public void initBlock() {
         Random random = new Random();
-        //rannumForBoard = random.nextInt(6);
-        rannumForBoard = 2;
+        rannumForBoard = random.nextInt(6);
+        //rannumForBoard = 2;
         current_block = blocks[rannumForBoard][0];
     }
 
-    public Board blockStacked() {
+    public Board blockStacked(Thread thread) {
         //board에 현재 블럭의 숫자와 배경의 숫자를 더해주는 과정
         for (int v = 0; v < 4; v++) {
             for (int h = 0; h < 4; h++) {
@@ -66,7 +68,8 @@ public class Block {
                 }
             }
         }
-        //boolean checkif = false;
+
+        // 한 줄이 다 채워졌는지 확인하는 과정
         for (int v = y + 3; v >= y; v--) {
             if (v >= 16) {
                 continue;
@@ -78,28 +81,20 @@ public class Block {
                     break;
                 }
             }
-
+        // 만약 다 채워졌다면 없애주는 과정
             if (isFilled) {
                 for (int ver = v; ver >= 1; ver--) {
                     System.arraycopy(board.board[ver-1], 0, board.board[ver], 0, board.board[ver].length);
-                    //board.board[ver] = board.board[ver - 1];
-                    //checkif = true;
                 }
                 board.board[0] = initBlock;
                 v++;
             }
-
         }
-//        if (checkif) {
-//            for (int i = 0; i < 17; i++) {
-//                for (int j = 0; j < 12; j++) {
-//                    System.out.print(board.board[i][j]);
-//                }
-//                System.out.println("");
-//            }
-//        }
         System.out.println(x + "값  " + y + "값");
 
+        if(checkGameOver()){
+            thread.interrupt();
+        }
 
         return board;
     }
@@ -148,6 +143,20 @@ public class Block {
         return false;
     }
 
+    public boolean checkGameOver(){
+        for(int v = 0; v<2; v++){
+            for(int h = 0; h<4; h++){
+                if (v + y <= 16 && h + x >= 0 && h + x <= 11) {
+                    if (board.board[v][h + 4] + current_block[v][h] > current_block[v][h] &&
+                            board.board[v][h + 4] + current_block[v][h] > board.board[v][h + 4]) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public void moveRight() {
 
         x = x + 1;
@@ -168,7 +177,11 @@ public class Block {
         y = y + 1;
         if (checkCollision()) {
             y = y - 1;
-            callbackNice.generateBlock(context);
+            if(y==0 && x>=4 && x<=7){
+                callbackNice.addGameOver();
+            }else {
+                callbackNice.generateBlock(context);
+            }
         }
     }
 

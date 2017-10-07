@@ -11,6 +11,7 @@ public class DownThread extends Thread {
     Block block;
     CallbackNice callbackNice;
     Handler handler;
+    int i=0;
 
     DownThread(Block block, CallbackNice callbackNice, Handler handler){
         this.block = block;
@@ -26,8 +27,12 @@ public class DownThread extends Thread {
             handler.sendEmptyMessage(Background.MOVE_DOWN);
             try {
                 Thread.sleep(300);
+                System.out.println(i);
+                i++;
             } catch (InterruptedException e) {
+
                 e.printStackTrace();
+                break;
             }
         }
     }

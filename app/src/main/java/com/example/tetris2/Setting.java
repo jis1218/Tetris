@@ -35,7 +35,7 @@ public class Setting {
     public Setting(Context context) {
         width_background = context.getResources().getDisplayMetrics().widthPixels - 16;
         rows = 16;
-        rows_preview = 8;
+        rows_preview = 6;
         board_size = width_background/rows*12;
         board_height = 17;
         board_width = 12;
