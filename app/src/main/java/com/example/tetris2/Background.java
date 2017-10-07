@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by 정인섭 on 2017-10-02.
@@ -32,7 +33,7 @@ public class Background extends View implements CallbackNice {
     public static final int MOVE_DOWN = 123;
     Handler handler;
     AppCompatActivity activity;
-    FragmentManager fragmentManager;
+    TextView tv_score;
 
     public Background(Context context, AppCompatActivity activity) {
         super(context);
@@ -44,6 +45,7 @@ public class Background extends View implements CallbackNice {
         setHandler();
         downThread = new DownThread(block, this, handler);
         downThread.start();
+        tv_score = (TextView) activity.findViewById(R.id.score);
     }
 
     @Override
@@ -56,7 +58,8 @@ public class Background extends View implements CallbackNice {
 
     @Override
     public void generateBlock(Context context) {
-        board = block.blockStacked(downThread);
+        board = block.blockStacked(tv_score);
+
         block = new Block(context, this);
 
         //downThread = new DownThread(block, this, handler);
@@ -85,4 +88,5 @@ public class Background extends View implements CallbackNice {
     public void addGameOver() {
         //activity.getSupportFragmentManager().beginTransaction().add(R.id.constraint, new GameOverFragment()).commit();
     }
+
 }

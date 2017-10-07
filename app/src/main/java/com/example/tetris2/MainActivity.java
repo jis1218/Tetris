@@ -3,6 +3,8 @@ package com.example.tetris2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout container;
     Background background;
 
-    Button btnUp, btnDown, btnRight, btnLeft, finish;
-    Button test;
+    Button btnUp, btnDown, btnRight, btnLeft;
+    TextView highScore, score;
+
     View.OnClickListener onClickListener;
 
     @Override
@@ -30,16 +34,6 @@ public class MainActivity extends AppCompatActivity {
         addBackgroundToContainer();
         buttonClick();
         setListener();
-
-
-        test = (Button) findViewById(R.id.test);
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }
-        });
-
     }
 
     @Override
@@ -55,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         btnUp = (Button) findViewById(R.id.btnUp);
         btnLeft = (Button) findViewById(R.id.btnLeft);
         btnRight = (Button) findViewById(R.id.btnRight);
-        finish = (Button) findViewById(R.id.finish);
+        highScore = (TextView) findViewById(R.id.high_score);
+        score = (TextView) findViewById(R.id.score);
     }
 
     public void addBackgroundToContainer() {
@@ -67,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         btnDown.setOnClickListener(onClickListener);
         btnRight.setOnClickListener(onClickListener);
         btnLeft.setOnClickListener(onClickListener);
-        finish.setOnClickListener(onClickListener);
     }
 
     public void buttonClick() {
@@ -98,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    public void addScore(Handler handler){
+        Message message = new Message();
+        message.what = 10;
+        handler.sendMessage(message);
+
     }
 
 }

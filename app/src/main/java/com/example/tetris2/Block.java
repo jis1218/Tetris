@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.Window;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -23,6 +24,8 @@ public class Block {
     Paint paint;
     int blockColor[] = {Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.GRAY};
     int current_block[][];
+    TextView textView;
+
 
     int initBlock[] = {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9};
 
@@ -59,7 +62,7 @@ public class Block {
         current_block = blocks[rannumForBoard][0];
     }
 
-    public Board blockStacked(Thread thread) {
+    public Board blockStacked(TextView textView) {
         //board에 현재 블럭의 숫자와 배경의 숫자를 더해주는 과정
         for (int v = 0; v < 4; v++) {
             for (int h = 0; h < 4; h++) {
@@ -70,6 +73,7 @@ public class Block {
         }
 
         // 한 줄이 다 채워졌는지 확인하는 과정
+        int count = 0;
         for (int v = y + 3; v >= y; v--) {
             if (v >= 16) {
                 continue;
@@ -86,17 +90,25 @@ public class Block {
                 for (int ver = v; ver >= 1; ver--) {
                     System.arraycopy(board.board[ver-1], 0, board.board[ver], 0, board.board[ver].length);
                 }
+                count++;
                 board.board[0] = initBlock;
                 v++;
             }
+
         }
+        addScore(count, textView);
         System.out.println(x + "값  " + y + "값");
 
-        if(checkGameOver()){
-            thread.interrupt();
-        }
-
         return board;
+    }
+
+    private void addScore(int count, TextView textView) {
+        if(count>0) {
+            int score = 20 * count - 10;
+            int finalscore = Integer.parseInt(textView.getText().toString()) + score;
+            String scoreString = String.valueOf(finalscore);
+            textView.setText(scoreString);
+        }
     }
 
     public void rotateBlock() {
@@ -143,19 +155,19 @@ public class Block {
         return false;
     }
 
-    public boolean checkGameOver(){
-        for(int v = 0; v<2; v++){
-            for(int h = 0; h<4; h++){
-                if (v + y <= 16 && h + x >= 0 && h + x <= 11) {
-                    if (board.board[v][h + 4] + current_block[v][h] > current_block[v][h] &&
-                            board.board[v][h + 4] + current_block[v][h] > board.board[v][h + 4]) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
+//    public boolean checkGameOver(){
+//        for(int v = 0; v<2; v++){
+//            for(int h = 0; h<4; h++){
+//                if (v + y <= 16 && h + x >= 0 && h + x <= 11) {
+//                    if (board.board[v][h + 4] + current_block[v][h] > current_block[v][h] &&
+//                            board.board[v][h + 4] + current_block[v][h] > board.board[v][h + 4]) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     public void moveRight() {
 
