@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.example.tetris2.database.DaoClass;
+
 import java.util.Random;
 
 /**
@@ -25,6 +27,7 @@ public class Block {
     int blockColor[] = {Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.GRAY};
     int current_block[][];
     TextView textView;
+    int finalscore;
 
 
     int initBlock[] = {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9};
@@ -191,6 +194,7 @@ public class Block {
             y = y - 1;
             if(y==0 && x>=4 && x<=7){
                 callbackNice.addGameOver();
+                finalscore = Integer.parseInt(textView.getText().toString());
             }else {
                 callbackNice.generateBlock(context);
             }

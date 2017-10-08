@@ -14,6 +14,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tetris2.database.DaoClass;
+
 /**
  * Created by 정인섭 on 2017-10-02.
  */

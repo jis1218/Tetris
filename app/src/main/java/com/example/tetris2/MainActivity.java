@@ -94,11 +94,4 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    public void addScore(Handler handler){
-        Message message = new Message();
-        message.what = 10;
-        handler.sendMessage(message);
-
-    }
-
 }
