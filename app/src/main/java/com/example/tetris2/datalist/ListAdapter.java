@@ -1,6 +1,7 @@
 package com.example.tetris2.datalist;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -26,35 +27,37 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+        view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list, null);
         Holder holder = new Holder(view);
-        String pos = (position+1) + "";
+        String pos = (position + 1) + "";
         holder.tvNo.setText(pos);
-        holder.tvScore.setText(list.get(position).score);
+        String scores = list.get(position).score + "";
+        holder.tvScore.setText(scores);
         String date_str = list.get(position).date + "";
         holder.tvTime.setText(date_str);
-        view = View.inflate(context, R.layout.item_list, null);
 
         return view;
     }
 
-    public class Holder{
+    public class Holder {
         TextView tvNo, tvScore, tvTime;
-        Holder(View view){
+
+        Holder(View view) {
             tvNo = view.findViewById(R.id.tvNo);
             tvScore = view.findViewById(R.id.tvScore);
             tvTime = view.findViewById(R.id.tvTime);

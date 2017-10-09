@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.tetris2.database.DaoClass;
+import com.example.tetris2.datalist.Score;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by 정인섭 on 2017-10-02.
@@ -36,6 +39,8 @@ public class Background extends View implements CallbackNice {
     Handler handler;
     AppCompatActivity activity;
     TextView tv_score;
+    DaoClass dao;
+    Score score;
 
     public Background(Context context, AppCompatActivity activity) {
         super(context);
@@ -48,6 +53,7 @@ public class Background extends View implements CallbackNice {
         downThread = new DownThread(block, this, handler);
         downThread.start();
         tv_score = (TextView) activity.findViewById(R.id.score);
+        dao = new DaoClass(context);
     }
 
     @Override
@@ -88,6 +94,13 @@ public class Background extends View implements CallbackNice {
 
     @Override
     public void addGameOver() {
+        downThread.running = false;
+        score = new Score();
+        score.score = block.finalscore;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        String strDateTime = sdf.format(System.currentTimeMillis());
+        score.date = strDateTime;
+        dao.insert(score);
         //activity.getSupportFragmentManager().beginTransaction().add(R.id.constraint, new GameOverFragment()).commit();
     }
 

@@ -12,6 +12,7 @@ public class DownThread extends Thread {
     CallbackNice callbackNice;
     Handler handler;
     int i=0;
+    boolean running = true;
 
     DownThread(Block block, CallbackNice callbackNice, Handler handler){
         this.block = block;
@@ -23,12 +24,10 @@ public class DownThread extends Thread {
     public void run() {
         //super.run();
 
-        while(true){
+        while(running){
             handler.sendEmptyMessage(Background.MOVE_DOWN);
             try {
                 Thread.sleep(300);
-                System.out.println(i);
-                i++;
             } catch (InterruptedException e) {
 
                 e.printStackTrace();

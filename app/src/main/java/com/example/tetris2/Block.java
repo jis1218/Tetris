@@ -10,7 +10,9 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.example.tetris2.database.DaoClass;
+import com.example.tetris2.datalist.Score;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -27,14 +29,17 @@ public class Block {
     int blockColor[] = {Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.GRAY};
     int current_block[][];
     TextView textView;
-    int finalscore;
+    static int finalscore;
+    float time;
+    Score score;
+    DaoClass dao;
+
 
 
     int initBlock[] = {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9};
 
 
     Board board;
-    Background background;
 
     int x, y, z;
 
@@ -108,7 +113,7 @@ public class Block {
     private void addScore(int count, TextView textView) {
         if(count>0) {
             int score = 20 * count - 10;
-            int finalscore = Integer.parseInt(textView.getText().toString()) + score;
+            finalscore = Integer.parseInt(textView.getText().toString()) + score;
             String scoreString = String.valueOf(finalscore);
             textView.setText(scoreString);
         }
@@ -194,7 +199,7 @@ public class Block {
             y = y - 1;
             if(y==0 && x>=4 && x<=7){
                 callbackNice.addGameOver();
-                finalscore = Integer.parseInt(textView.getText().toString());
+
             }else {
                 callbackNice.generateBlock(context);
             }
